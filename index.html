@@ -3,123 +3,156 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pokémon Deck Checklist — Template</title>
+<title>Pokémon Deck Checklist</title>
+<meta property="og:title" content="Pokémon Deck Checklist">
+<meta property="og:description" content="Paste a Pokémon TCG Live export and get a clean, printable deck checklist that tints to your deck's energy type.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#2f6fd6">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#15233b;
-    --muted:#5b6b82;
-    --line:#c9d4e3;
-    --accent:#1f6fd6;
-    --accent-soft:#e8f1fc;
-    --paper:#ffffff;
+    --bg:#eef2f8;
+    --card:#ffffff;
+    --ink:#161d2b;
+    --muted:#667489;
+    --line:#e4e9f1;
+    --accent:#2f6fd6;
+    --accent-ink:#1f56ad;
+    --accent-soft:#e9f0fb;
+    --radius:16px;
+    --shadow:0 1px 2px rgba(16,28,51,.05), 0 10px 34px rgba(16,28,51,.09);
   }
   *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;background:#eef1f5;color:var(--ink);
-    font-family:"Segoe UI",Roboto,-apple-system,Helvetica,Arial,sans-serif;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;}
 
-  .wrap{max-width:980px;margin:0 auto;padding:22px 18px 60px;}
+  .app{display:grid;grid-template-columns:minmax(330px,390px) 1fr;gap:30px;
+    max-width:1200px;margin:0 auto;padding:30px;align-items:start;}
+  @media (max-width:920px){
+    .app{grid-template-columns:1fr;gap:22px;padding:18px;}
+    .panel{position:static !important;}
+  }
 
-  /* ---- Controls ---- */
-  .controls{background:#fff;border:1px solid var(--line);border-radius:8px;
-    padding:18px 20px;margin-bottom:22px;box-shadow:0 1px 8px rgba(20,35,59,.06);}
-  .controls h1{font-size:16px;margin:0 0 2px;font-weight:800;letter-spacing:-.01em;}
-  .controls p.sub{margin:0 0 14px;font-size:12.5px;color:var(--muted);line-height:1.45;}
-  .row{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;}
-  .field{flex:1 1 220px;min-width:200px;}
-  label{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
-    color:var(--accent);font-weight:700;margin-bottom:5px;}
-  input[type=text],textarea{width:100%;border:1.5px solid var(--line);border-radius:6px;
-    padding:9px 11px;font-size:13.5px;color:var(--ink);font-family:inherit;background:#fbfcfe;}
-  textarea{min-height:190px;resize:vertical;font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
-    font-size:12.5px;line-height:1.55;white-space:pre;}
-  input:focus,textarea:focus{outline:none;border-color:var(--accent);background:#fff;}
-  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
-  button{border:none;border-radius:6px;padding:10px 16px;font-size:13px;font-weight:700;
-    cursor:pointer;font-family:inherit;}
-  .btn-primary{background:var(--accent);color:#fff;}
-  .btn-primary:hover{background:#1a5db4;}
-  .btn-ghost{background:#fff;color:var(--accent);border:1.5px solid var(--accent);}
-  .btn-ghost:hover{background:var(--accent-soft);}
-  details.help{margin-top:12px;font-size:12px;color:var(--muted);}
-  details.help summary{cursor:pointer;font-weight:700;color:var(--accent);}
-  details.help code{background:#eef1f5;padding:1px 5px;border-radius:4px;font-size:11.5px;}
-  details.help pre{background:#f6f8fb;border:1px solid var(--line);border-radius:6px;
-    padding:10px 12px;overflow:auto;font-size:11.5px;line-height:1.5;}
-  .err{color:#c0392b;font-size:12.5px;margin-top:8px;font-weight:600;}
+  /* ---- Control panel ---- */
+  .panel{position:sticky;top:26px;background:var(--card);border:1px solid var(--line);
+    border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);}
+  .eyebrow{font-family:'Space Grotesk';font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--accent);font-weight:600;margin:0;display:flex;align-items:center;gap:8px;}
+  .eyebrow .mark{width:14px;height:14px;border-radius:5px;background:var(--accent);
+    box-shadow:inset 0 0 0 3px var(--card);transition:background .35s ease;}
+  h1{font-family:'Space Grotesk';font-size:26px;line-height:1.1;margin:8px 0 4px;font-weight:700;letter-spacing:-.02em;}
+  .sub{margin:0 0 18px;font-size:13px;color:var(--muted);line-height:1.5;}
+  label{display:block;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--muted);font-weight:700;margin:14px 0 6px;}
+  input[type=text],textarea{width:100%;border:1.5px solid var(--line);border-radius:10px;
+    padding:11px 13px;font-size:14px;color:var(--ink);font-family:inherit;background:#fafbfd;
+    transition:border-color .15s ease, box-shadow .15s ease;}
+  textarea{min-height:200px;resize:vertical;font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;
+    font-size:12.5px;line-height:1.6;white-space:pre;font-weight:600;}
+  input:focus,textarea:focus{outline:none;border-color:var(--accent);
+    box-shadow:0 0 0 4px var(--accent-soft);background:#fff;}
+  .err{color:#c0392b;font-size:12.5px;margin-top:10px;font-weight:600;display:none;}
 
-  /* ---- Sheet (printable) ---- */
-  .sheet{background:var(--paper);padding:34px 40px 40px;border-radius:6px;
-    box-shadow:0 2px 18px rgba(20,35,59,.12);}
-  header.deck-head{border-bottom:3px solid var(--accent);padding-bottom:14px;margin-bottom:20px;}
-  .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;
-    color:var(--accent);font-weight:700;margin:0 0 4px;}
-  h2.deck-title{font-size:25px;line-height:1.15;margin:0;font-weight:800;letter-spacing:-.01em;}
-  .meta{display:flex;gap:20px;margin-top:12px;flex-wrap:wrap;}
-  .stat{font-size:12px;color:var(--muted);}
-  .stat b{display:block;font-size:19px;color:var(--ink);font-weight:800;}
+  .btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px;}
+  button{border:none;border-radius:10px;padding:11px 16px;font-size:13px;font-weight:600;
+    cursor:pointer;font-family:inherit;transition:transform .08s ease, background .15s ease, box-shadow .15s ease;}
+  button:active{transform:translateY(1px);}
+  .btn-primary{background:var(--accent-ink);color:#fff;box-shadow:0 2px 10px rgba(16,28,51,.16);}
+  .btn-primary:hover{background:var(--accent);}
+  .btn-ghost{background:#fff;color:var(--accent-ink);border:1.5px solid var(--line);}
+  .btn-ghost:hover{background:var(--accent-soft);border-color:var(--accent);}
 
-  .deck{column-count:2;column-gap:36px;margin-top:6px;}
-  @media (max-width:680px){.deck{column-count:1;}}
-  section.cat{break-inside:avoid;margin-bottom:18px;}
+  details.help{margin-top:16px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px;}
+  details.help summary{cursor:pointer;font-weight:700;color:var(--accent-ink);font-size:12px;}
+  details.help code{background:var(--bg);padding:1px 5px;border-radius:5px;font-family:'JetBrains Mono',monospace;font-size:11px;}
+  details.help pre{background:#f6f8fc;border:1px solid var(--line);border-radius:10px;
+    padding:11px 13px;overflow:auto;font-size:11px;line-height:1.55;font-family:'JetBrains Mono',monospace;}
+
+  /* ---- Preview / printable sheet ---- */
+  .preview{display:flex;justify-content:center;}
+  .sheet{width:100%;max-width:780px;background:var(--card);border-radius:var(--radius);
+    border-top:6px solid var(--accent);box-shadow:var(--shadow);padding:38px 44px 42px;
+    animation:rise .4s cubic-bezier(.2,.7,.3,1);transition:border-color .35s ease;}
+  @keyframes rise{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+  header.deck-head{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:22px;}
+  .kicker{font-family:'Space Grotesk';font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--accent-ink);font-weight:600;margin:0 0 6px;}
+  h2.deck-title{font-family:'Space Grotesk';font-size:30px;line-height:1.08;margin:0;font-weight:700;letter-spacing:-.02em;}
+  .pills{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px;}
+  .type-pill{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;
+    color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 10px 3px 8px;}
+  .type-pill .dot{width:9px;height:9px;border-radius:50%;}
+  .meta{display:flex;gap:26px;margin-top:16px;flex-wrap:wrap;}
+  .stat{font-size:11.5px;color:var(--muted);font-weight:500;}
+  .stat b{display:block;font-family:'Space Grotesk';font-size:22px;color:var(--ink);font-weight:700;line-height:1.1;}
+
+  .deck{column-count:2;column-gap:40px;margin-top:4px;}
+  @media (max-width:560px){.deck{column-count:1;}}
+  section.cat{break-inside:avoid;margin-bottom:22px;}
   .sec-head{display:flex;justify-content:space-between;align-items:baseline;
-    border-bottom:1.5px solid var(--ink);padding-bottom:4px;margin-bottom:6px;}
-  .sec-head h3{font-size:14px;letter-spacing:.06em;text-transform:uppercase;margin:0;font-weight:800;}
-  .sec-head .ct{font-size:12px;color:var(--muted);font-weight:600;}
-  .grp{break-inside:avoid;margin:8px 0 4px;}
-  .grp-label{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
-    color:var(--accent);font-weight:700;margin:0 0 3px;}
+    padding-bottom:5px;margin-bottom:8px;border-bottom:2px solid var(--accent);}
+  .sec-head h3{font-family:'Space Grotesk';font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin:0;font-weight:700;}
+  .sec-head .ct{font-size:11px;color:var(--muted);font-weight:600;font-family:'JetBrains Mono',monospace;}
+  .grp{break-inside:avoid;margin:10px 0 4px;}
+  .grp-label{font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--accent-ink);font-weight:700;margin:0 0 4px;}
   ul{list-style:none;margin:0;padding:0;}
-  li{display:flex;align-items:center;gap:9px;padding:3.5px 0;
-    border-bottom:1px dotted var(--line);font-size:13.5px;}
+  li{display:flex;align-items:center;gap:10px;padding:4.5px 6px;margin:0 -6px;border-radius:7px;
+    font-size:13.5px;border-bottom:1px solid var(--line);transition:background .12s ease;}
   li:last-child{border-bottom:none;}
-  .box{flex:0 0 auto;width:14px;height:14px;border:1.6px solid var(--ink);border-radius:3px;}
-  .qty{flex:0 0 auto;width:20px;text-align:center;font-weight:800;
-    background:var(--accent-soft);color:var(--accent);border-radius:3px;font-size:12.5px;padding:1px 0;}
+  li:hover{background:var(--accent-soft);}
+  .box{flex:0 0 auto;width:15px;height:15px;border:1.7px solid var(--muted);border-radius:4px;}
+  .qty{flex:0 0 auto;min-width:22px;height:21px;display:flex;align-items:center;justify-content:center;
+    font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;
+    background:var(--accent-soft);color:var(--accent-ink);border-radius:6px;padding:0 5px;}
   .name{flex:1 1 auto;font-weight:500;}
-  .set{flex:0 0 auto;color:var(--muted);font-size:11.5px;font-variant-numeric:tabular-nums;white-space:nowrap;}
-  footer.deck-foot{margin-top:14px;padding-top:10px;border-top:1px solid var(--line);
-    font-size:11px;color:var(--muted);display:flex;justify-content:space-between;}
+  .set{flex:0 0 auto;color:var(--muted);font-size:11px;font-family:'JetBrains Mono',monospace;
+    font-weight:600;white-space:nowrap;}
+  footer.deck-foot{margin-top:18px;padding-top:12px;border-top:1px solid var(--line);
+    font-size:11px;color:var(--muted);display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;}
 
   @media print{
     html,body{background:#fff;}
-    .controls{display:none !important;}
-    .wrap{padding:0;max-width:none;}
-    .sheet{box-shadow:none;border-radius:0;padding:0 8px;}
+    .app{display:block;max-width:none;padding:0;}
+    .panel{display:none !important;}
+    .preview{display:block;}
+    .sheet{max-width:none;box-shadow:none;border-radius:0;border-top:4px solid var(--accent);padding:0 6px;animation:none;}
+    li:hover{background:none;}
+    li{padding-left:0;padding-right:0;margin:0;}
     @page{margin:14mm;}
   }
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="app">
 
-  <div class="controls">
-    <h1>Pokémon Deck Checklist Generator</h1>
-    <p class="sub">Paste a deck list in standard export format. It auto-detects the Pokémon / Trainer / Energy sections and builds a printable checklist. Counts are calculated from the list.</p>
+  <aside class="panel">
+    <p class="eyebrow"><span class="mark"></span>Deck Tools</p>
+    <h1>Deck Checklist</h1>
+    <p class="sub">Paste a Pokémon TCG Live export and get a clean, printable checklist. It tints to your deck's energy type automatically.</p>
 
-    <div class="row">
-      <div class="field">
-        <label for="title">Deck name</label>
-        <input type="text" id="title" placeholder="e.g. Mega Greninja ex / Dragapult ex">
-      </div>
-    </div>
+    <label for="title">Deck name</label>
+    <input type="text" id="title" placeholder="e.g. Mega Greninja ex / Dragapult ex">
 
-    <div class="field" style="margin-top:14px;">
-      <label for="list">Deck list</label>
-      <textarea id="list" spellcheck="false"></textarea>
-    </div>
+    <label for="list">Deck list</label>
+    <textarea id="list" spellcheck="false"></textarea>
 
-    <div id="err" class="err" style="display:none;"></div>
+    <div id="err" class="err"></div>
 
     <div class="btns">
       <button class="btn-primary" id="btn-generate">Generate</button>
       <button class="btn-ghost" id="btn-print">Print</button>
-      <button class="btn-ghost" id="btn-download">Save deck as HTML</button>
+      <button class="btn-ghost" id="btn-download">Save as HTML</button>
     </div>
 
     <details class="help">
-      <summary>Format &amp; tips</summary>
-      <p>Each card line is <code>quantity name SET number</code>, e.g. <code>4 Froakie CRI 20</code>.</p>
-      <p>A line starting with <b>Pokémon</b>, <b>Trainer</b>, or <b>Energy</b> starts a new section. Optional sub-groups: any other line ending in a colon, e.g. <code>Greninja line:</code> or <code>Supporters:</code> — cards below it sit under that label. <code>Total Cards:</code> lines are ignored.</p>
+      <summary>Deck list format</summary>
+      <p style="margin-top:10px;">Card lines are <code>qty name SET number</code>. A line starting with <b>Pokémon</b>, <b>Trainer</b>, or <b>Energy</b> begins a section; any other line ending in a colon is a sub-group. <code>Total Cards:</code> lines are ignored.</p>
       <pre>Pokémon: 11
 Greninja line:
 4 Froakie CRI 20
@@ -130,9 +163,11 @@ Supporters:
 Energy: 3
 7 Basic {W} Energy MEE 3</pre>
     </details>
-  </div>
+  </aside>
 
-  <div class="sheet" id="sheet"></div>
+  <main class="preview">
+    <div class="sheet" id="sheet"></div>
+  </main>
 
 </div>
 
@@ -179,11 +214,50 @@ Special:
 Total Cards: 60`;
 
 const SHEET_CSS = document.querySelector('style').textContent;
+let lastTitle = '';
 
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function slug(t){return (t||'deck').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
 
 const SECTION_RE = /^\s*(pok[eé]mon|trainers?|energy)\b/i;
 const TOTAL_RE   = /^\s*total\b/i;
+
+// Energy-type palette (clean, modern hues)
+const ENERGY = {
+  Grass:    {accent:'#1f9d57', ink:'#15743f', soft:'#e6f6ec', dot:'#22a85d'},
+  Fire:     {accent:'#e0533d', ink:'#b53b28', soft:'#fdeae6', dot:'#ef5a3f'},
+  Water:    {accent:'#2f6fd6', ink:'#1f56ad', soft:'#e9f0fb', dot:'#2a7fe0'},
+  Lightning:{accent:'#e0a500', ink:'#8a6500', soft:'#fdf4d8', dot:'#f5c518'},
+  Psychic:  {accent:'#9333ea', ink:'#6b21a8', soft:'#f3e9fc', dot:'#a64bf0'},
+  Fighting: {accent:'#c2410c', ink:'#9a330a', soft:'#fbeadf', dot:'#d2561f'},
+  Darkness: {accent:'#475569', ink:'#334155', soft:'#e9edf2', dot:'#5a6b7d'},
+  Metal:    {accent:'#64748b', ink:'#475569', soft:'#eef1f5', dot:'#7689a0'},
+  Dragon:   {accent:'#b8860b', ink:'#8a6608', soft:'#f7efd9', dot:'#caa11e'},
+  Fairy:    {accent:'#db2777', ink:'#a81e5d', soft:'#fbe7f1', dot:'#e84393'}
+};
+const DEFAULT_THEME = {accent:'#2f6fd6', ink:'#1f56ad', soft:'#e9f0fb'};
+const SYM = {G:'Grass',R:'Fire',W:'Water',L:'Lightning',P:'Psychic',F:'Fighting',D:'Darkness',M:'Metal',N:'Dragon',Y:'Fairy'};
+
+function detectType(name){
+  const sym = name.match(/\{([A-Z])\}/);
+  if(sym && SYM[sym[1]]) return SYM[sym[1]];
+  for(const t of Object.keys(ENERGY)){
+    if(new RegExp('\\b'+t+'\\b','i').test(name)) return t;
+  }
+  return null;
+}
+function detectTheme(sections){
+  const counts = {};
+  for(const s of sections){
+    if(!/energy/i.test(s.name)) continue;
+    for(const g of s.groups) for(const c of g.cards){
+      const t = detectType(c.name);
+      if(t) counts[t] = (counts[t]||0) + c.qty;
+    }
+  }
+  const types = Object.keys(counts).map(name=>({name,count:counts[name]})).sort((a,b)=>b.count-a.count);
+  return {primary: types.length ? types[0].name : null, types};
+}
 
 function parse(text){
   const lines = text.split(/\r?\n/);
@@ -194,30 +268,21 @@ function parse(text){
     if(!line) continue;
     if(TOTAL_RE.test(line)) continue;
     if(SECTION_RE.test(line)){
-      const name = line.replace(/[:].*$/,'').trim();
-      cur = {name, groups:[]};
-      sections.push(cur);
-      grp = null;
-      continue;
+      cur = {name: line.replace(/[:].*$/,'').trim(), groups:[]};
+      sections.push(cur); grp = null; continue;
     }
-    // card line: starts with an integer quantity
     const m = line.match(/^(\d+)\s+(.*)$/);
     const isCard = m && /\s/.test(m[2]);
     if(line.endsWith(':') && !isCard){
       grp = {label:line.slice(0,-1).trim(), cards:[]};
       if(!cur){cur={name:'Cards',groups:[]};sections.push(cur);}
-      cur.groups.push(grp);
-      continue;
+      cur.groups.push(grp); continue;
     }
     if(m){
       const qty = parseInt(m[1],10);
       const toks = m[2].split(/\s+/);
       let set='', num='', name=m[2];
-      if(toks.length>=3){
-        num = toks[toks.length-1];
-        set = toks[toks.length-2];
-        name = toks.slice(0,-2).join(' ');
-      }
+      if(toks.length>=3){ num=toks[toks.length-1]; set=toks[toks.length-2]; name=toks.slice(0,-2).join(' '); }
       if(!cur){cur={name:'Cards',groups:[]};sections.push(cur);}
       if(!grp){grp={label:null,cards:[]};cur.groups.push(grp);}
       grp.cards.push({qty,name,set,num});
@@ -226,16 +291,19 @@ function parse(text){
   return sections;
 }
 
-function sectionTotal(s){
-  return s.groups.reduce((t,g)=>t+g.cards.reduce((a,c)=>a+c.qty,0),0);
-}
+function sectionTotal(s){return s.groups.reduce((t,g)=>t+g.cards.reduce((a,c)=>a+c.qty,0),0);}
 
-function buildSheet(title, sections){
+function buildSheet(title, sections, detected){
   const grand = sections.reduce((t,s)=>t+sectionTotal(s),0);
   const lineCount = sections.reduce((t,s)=>t+s.groups.reduce((a,g)=>a+g.cards.length,0),0);
 
   let meta = sections.map(s=>`<div class="stat"><b>${sectionTotal(s)}</b>${esc(s.name)}</div>`).join('');
   meta += `<div class="stat"><b>${grand}</b>Total</div>`;
+
+  const pills = detected.types.map(t=>{
+    const c = ENERGY[t.name];
+    return `<span class="type-pill"><span class="dot" style="background:${c.dot}"></span>${t.name}</span>`;
+  }).join('');
 
   let body = '';
   for(const s of sections){
@@ -252,12 +320,20 @@ function buildSheet(title, sections){
   }
 
   return `<header class="deck-head">
-      <p class="eyebrow">Pokémon TCG · ${grand} cards</p>
+      <p class="kicker">Pokémon TCG · ${grand} cards</p>
       <h2 class="deck-title">${esc(title||'Untitled Deck')}</h2>
+      ${pills ? `<div class="pills">${pills}</div>` : ''}
       <div class="meta">${meta}</div>
     </header>
     <div class="deck">${body}</div>
-    <footer class="deck-foot"><span>${lineCount} entries across ${sections.length} sections</span><span>Total: ${grand} cards</span></footer>`;
+    <footer class="deck-foot"><span>${lineCount} entries · ${sections.length} sections</span><span>${grand} / 60</span></footer>`;
+}
+
+function applyTheme(theme){
+  const r = document.documentElement.style;
+  r.setProperty('--accent', theme.accent);
+  r.setProperty('--accent-ink', theme.ink);
+  r.setProperty('--accent-soft', theme.soft);
 }
 
 function render(){
@@ -268,25 +344,23 @@ function render(){
     const sections = parse(text);
     if(!sections.length){err.style.display='block';err.textContent='No cards detected — check the format.';return;}
     err.style.display='none';
-    document.getElementById('sheet').innerHTML = buildSheet(title, sections);
-  }catch(e){
-    err.style.display='block';
-    err.textContent='Could not parse the list: '+e.message;
-  }
+    lastTitle = title || 'Untitled Deck';
+    const detected = detectTheme(sections);
+    applyTheme(detected.primary ? ENERGY[detected.primary] : DEFAULT_THEME);
+    document.getElementById('sheet').innerHTML = buildSheet(title, sections, detected);
+  }catch(e){ err.style.display='block'; err.textContent='Could not parse the list: '+e.message; }
 }
 
 function downloadDeck(){
-  const title = document.getElementById('title').value || 'deck';
   const inner = document.getElementById('sheet').innerHTML;
   const doc = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${esc(title)}</title><style>${SHEET_CSS}</style></head>
-<body><div class="wrap"><div class="sheet">${inner}</div></div>
-<script>document.title=${JSON.stringify(title)};<\/script></body></html>`;
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${esc(lastTitle)}</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+<style>${SHEET_CSS}</style></head>
+<body><div class="app"><div class="preview"><div class="sheet">${inner}</div></div></div></body></html>`;
   const blob = new Blob([doc],{type:'text/html'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') + '-checklist.html';
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = slug(lastTitle)+'-checklist.html';
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 }
