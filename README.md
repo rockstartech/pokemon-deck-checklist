@@ -1,7 +1,7 @@
 # Pokémon Deck Checklist
 
 A single-file printable checklist (`index.html`) for one deck:
-**Mega Greninja ex / Dragapult ex** (60 cards). No server or dependencies — just open it.
+. No server or dependencies — just open it.
 
 ## What it does
 
